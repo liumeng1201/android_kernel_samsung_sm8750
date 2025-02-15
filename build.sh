@@ -49,7 +49,7 @@ find . -type f -name "*.ko" -exec cp {} $DEST_DIR_1 \;
 rm -f AnyKernel3/modules/vendor_dlkm/lib/modules/placeholder
 echo "所有 .ko 文件已成功复制到目标目录。"
 cp arch/arm64/boot/Image AnyKernel3/zImage
-name=${TARGET_DEFCONFIG%%_defconfig}_kernel_`cat include/config/kernel.release`_`date '+%Y_%m_%d'`
+name=S25_${TARGET_DEFCONFIG%%_defconfig}_kernel_`cat include/config/kernel.release`_`date '+%Y_%m_%d'`
 cd AnyKernel3
 zip -r ${name}.zip * -x *.zip
 echo "AnyKernel3 package output to $(realpath $name).zip"
