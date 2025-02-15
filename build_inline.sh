@@ -46,7 +46,7 @@ fi
 rm -rf AnyKernel3/modules
 cp arch/arm64/boot/Image AnyKernel3/zImage
 sed -i '9s/.*/do.modules=0/' AnyKernel3/anykernel.sh
-name=${TARGET_DEFCONFIG%%_defconfig}_kernel_`cat include/config/kernel.release`_`date '+%Y_%m_%d'`
+name=S25_${TARGET_DEFCONFIG%%_defconfig}_kernel_`cat include/config/kernel.release`_`date '+%Y_%m_%d'`
 cd AnyKernel3
 zip -r ${name}.zip * -x *.zip
 echo "AnyKernel3 package output to $(realpath $name).zip"
