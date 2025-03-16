@@ -7001,11 +7001,11 @@ CONFIG_PROCA_CERTIFICATES_XATTR=y
 CONFIG_PROCA_CERT_ENG="x509_proca_eng.der"
 CONFIG_PROCA_CERT_USER="x509_proca_user.der"
 CONFIG_PROCA_DEBUG=y
-CONFIG_GAF=y
+# CONFIG_GAF is not set
 # CONFIG_GAF_V3 is not set
 # CONFIG_GAF_V4 is not set
 # CONFIG_GAF_V5 is not set
-CONFIG_GAF_V6=y
+# CONFIG_GAF_V6 is not set
 CONFIG_DEFAULT_SECURITY_SELINUX=y
 # CONFIG_DEFAULT_SECURITY_DAC is not set
 CONFIG_LSM="landlock,lockdown,yama,loadpin,safesetid,selinux,smack,tomoyo,apparmor,bpf"
