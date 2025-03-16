@@ -1,4 +1,4 @@
-export PATH="/home/kokuban/android_kernel_samsung_sm8750/clang/host/linux-x86/clang-r510928/bin:usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:$PATH"
+export PATH="/home/kokuban/toolchainS25/kernel_platform/prebuilts/clang/host/linux-x86/clang-r510928/bin:usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:$PATH"
 
 echo $PATH
 
@@ -8,7 +8,7 @@ TARGET_DEFCONFIG=${1:-sun_gki_defconfig}
 
 cd "$(dirname "$0")"
 
-LOCALVERSION=-Kokuban-android15-8-Herta-30455426-abogkiS938BXXU1AYA1
+LOCALVERSION=-Kokuban-android15-Herta-U1AYA1
 
 if [ "$LTO" == "thin" ]; then
   LOCALVERSION+="-thin"
@@ -31,7 +31,17 @@ make -j$(nproc) -C $(pwd) O=$(pwd)/out ${ARGS} $TARGET_DEFCONFIG
   -d SECURITY_DEFEX \
   -d INTEGRITY \
   -d FIVE \
-  -d TRIM_UNUSED_KSYMS
+  -d TRIM_UNUSED_KSYMS \
+  -d PROCA \
+  -d PROCA_GKI_10 \
+  -d PROCA_S_OS \
+  -d PROCA_CERTIFICATES_XATTR \
+  -d PROCA_CERT_ENG \
+  -d PROCA_CERT_USER \
+  -d GAF_V6 \
+  -d FIVE \
+  -d FIVE_CERT_USER \
+  -d FIVE_DEFAULT_HASH
 
 if [ "$LTO" = "thin" ]; then
   ./scripts/config --file out/.config -e LTO_CLANG_THIN -d LTO_CLANG_FULL
@@ -43,20 +53,8 @@ cd out
 if [ ! -d AnyKernel3 ]; then
   git clone --depth=1 https://github.com/YuzakiKokuban/AnyKernel3.git -b sun
 fi
-DEST_DIR_1="AnyKernel3/modules/vendor_dlkm/lib/modules"
-# 查找所有 .ko 文件并复制
-find . -type f -name "*.ko" -exec cp {} $DEST_DIR_1 \;
-rm -f AnyKernel3/modules/vendor_dlkm/lib/modules/placeholder
-echo "所有 .ko 文件已成功复制到目标目录。"
 cp arch/arm64/boot/Image AnyKernel3/zImage
 name=S25_${TARGET_DEFCONFIG%%_defconfig}_kernel_`cat include/config/kernel.release`_`date '+%Y_%m_%d'`
 cd AnyKernel3
 zip -r ${name}.zip * -x *.zip
 echo "AnyKernel3 package output to $(realpath $name).zip"
-cd ..
-git clone --depth=1 https://github.com/YuzakiKokuban/S25_Kernel_ko_installer.git
-cp -rf AnyKernel3/modules/vendor_dlkm/lib/modules S25_Kernel_ko_installer/
-name2=S25_Kernel_ko_installer_$name
-cd S25_Kernel_ko_installer
-zip -r ${name2}.zip * -x *.zip
-echo "S25_Kernel_ko_installer package output to $(realpath $name2).zip"
