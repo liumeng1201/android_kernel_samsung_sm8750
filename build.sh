@@ -8,8 +8,6 @@ TARGET_DEFCONFIG=${1:-sun_gki_defconfig}
 
 cd "$(dirname "$0")"
 
-LOCALVERSION=-Kokuban-android15-Herta-U1AYA1
-
 if [ "$LTO" == "thin" ]; then
   LOCALVERSION+="-thin"
 fi
