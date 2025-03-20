@@ -8,7 +8,7 @@ TARGET_DEFCONFIG=${1:-inline_sun_gki_defconfig}
 
 cd "$(dirname "$0")"
 
-LOCALVERSION=-Kokuban-android15-8-Herta-30455426-abogkiS938BXXU1AYA1
+LOCALVERSION=-android15-Kokuban-Herta-U1AYB3
 
 if [ "$LTO" == "thin" ]; then
   LOCALVERSION+="-thin"
@@ -43,9 +43,7 @@ cd out
 if [ ! -d AnyKernel3 ]; then
   git clone --depth=1 https://github.com/YuzakiKokuban/AnyKernel3.git -b sun
 fi
-rm -rf AnyKernel3/modules
-cp arch/arm64/boot/Image AnyKernel3/zImage
-sed -i '9s/.*/do.modules=0/' AnyKernel3/anykernel.sh
+cp arch/arm64/boot/Image
 name=S25_${TARGET_DEFCONFIG%%_defconfig}_kernel_`cat include/config/kernel.release`_`date '+%Y_%m_%d'`
 cd AnyKernel3
 zip -r ${name}.zip * -x *.zip
