@@ -8,8 +8,6 @@ TARGET_DEFCONFIG=${1:-inline_sun_gki_defconfig}
 
 cd "$(dirname "$0")"
 
-LOCALVERSION=-android15-Kokuban-Herta-U1AYB3
-
 if [ "$LTO" == "thin" ]; then
   LOCALVERSION+="-thin"
 fi
@@ -31,7 +29,17 @@ make -j$(nproc) -C $(pwd) O=$(pwd)/out ${ARGS} $TARGET_DEFCONFIG
   -d SECURITY_DEFEX \
   -d INTEGRITY \
   -d FIVE \
-  -d TRIM_UNUSED_KSYMS
+  -d TRIM_UNUSED_KSYMS \
+  -d PROCA \
+  -d PROCA_GKI_10 \
+  -d PROCA_S_OS \
+  -d PROCA_CERTIFICATES_XATTR \
+  -d PROCA_CERT_ENG \
+  -d PROCA_CERT_USER \
+  -d GAF_V6 \
+  -d FIVE \
+  -d FIVE_CERT_USER \
+  -d FIVE_DEFAULT_HASH
 
 if [ "$LTO" = "thin" ]; then
   ./scripts/config --file out/.config -e LTO_CLANG_THIN -d LTO_CLANG_FULL
@@ -43,7 +51,9 @@ cd out
 if [ ! -d AnyKernel3 ]; then
   git clone --depth=1 https://github.com/YuzakiKokuban/AnyKernel3.git -b sun
 fi
-cp arch/arm64/boot/Image
+rm -rf AnyKernel3/modules
+cp arch/arm64/boot/Image AnyKernel3/zImage
+sed -i '9s/.*/do.modules=0/' AnyKernel3/anykernel.sh
 name=S25_${TARGET_DEFCONFIG%%_defconfig}_kernel_`cat include/config/kernel.release`_`date '+%Y_%m_%d'`
 cd AnyKernel3
 zip -r ${name}.zip * -x *.zip
