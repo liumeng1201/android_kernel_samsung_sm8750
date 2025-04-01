@@ -26,7 +26,7 @@ TARGET_DEFCONFIG=${1:-sun_gki_defconfig}
 
 cd "$(dirname "$0")"
 
-echo "-g$(git rev-parse --short HEAD)" > ./localversion
+echo "android15-Kokuban-Herta-AYA1-LKM-g$(git rev-parse --short HEAD)" > ./localversion
 
 ARGS="
 CC=clang
@@ -70,3 +70,5 @@ echo "boot.img output to $(realpath $name).img"
 cd ..
 cd ..
 echo "AnyKernel3 package output to $(realpath $name).zip"
+echo -n > localversion
+
