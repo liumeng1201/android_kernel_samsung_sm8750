@@ -70,5 +70,5 @@ echo "boot.img output to $(realpath $name).img"
 cd ..
 cd ..
 echo "AnyKernel3 package output to $(realpath $name).zip"
-echo -n > localversion
+echo -n > ./localversion
 
