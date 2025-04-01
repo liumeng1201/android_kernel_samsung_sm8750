@@ -26,6 +26,8 @@ TARGET_DEFCONFIG=${1:-sun_gki_defconfig}
 
 cd "$(dirname "$0")"
 
+echo "-g$(git rev-parse --short HEAD)" > ./localversion
+
 ARGS="
 CC=clang
 ARCH=arm64
@@ -55,7 +57,7 @@ if [ ! -d AnyKernel3 ]; then
   git clone --depth=1 https://github.com/YuzakiKokuban/AnyKernel3.git -b sun
 fi
 cp arch/arm64/boot/Image AnyKernel3/zImage
-name=S25_${TARGET_DEFCONFIG%%_defconfig}_kernel_`cat include/config/kernel.release`_`date '+%Y_%m_%d'`
+name=S25_kernel_`cat include/config/kernel.release`_`date '+%Y_%m_%d'`
 cd AnyKernel3
 zip -r ${name}.zip * -x *.zip
 cd ..
