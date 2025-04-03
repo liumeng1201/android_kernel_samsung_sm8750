@@ -52,6 +52,8 @@ fi
 
 make -j$(nproc) -C $(pwd) O=$(pwd)/out ${ARGS}
 
+echo -n > ./localversion
+
 cd out
 if [ ! -d AnyKernel3 ]; then
   git clone --depth=1 https://github.com/YuzakiKokuban/AnyKernel3.git -b sun
@@ -70,5 +72,4 @@ echo "boot.img output to $(realpath $name).img"
 cd ..
 cd ..
 echo "AnyKernel3 package output to $(realpath $name).zip"
-echo -n > ./localversion
 
