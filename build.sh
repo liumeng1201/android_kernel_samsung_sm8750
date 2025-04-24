@@ -3,7 +3,7 @@
 set -e
 
 # download toolchain from https://opensource.samsung.com/uploadSearch?searchValue=toolchain 
-TOOLCHAIN=$(realpath "/home/kokuban/PlentyofToolchain/toolchainS25/kernel_platform/prebuilts/")
+TOOLCHAIN=$(realpath "/home/kokuban/PlentyofToolchain/toolchainS25/kernel_platform/prebuilts")
 
 export PATH=$TOOLCHAIN/build-tools/linux-x86/bin:$PATH
 export PATH=$TOOLCHAIN/build-tools/path/linux-x86:$PATH
