@@ -3,7 +3,7 @@
 set -e
 
 # download toolchain from https://opensource.samsung.com/uploadSearch?searchValue=toolchain 
-TOOLCHAIN=$(realpath "/home/kokuban/PlentyofToolchain/toolchainS25/kernel_platform/prebuilts/")
+TOOLCHAIN=$(realpath "/home/kokuban/PlentyofToolchain/toolchainS25/kernel_platform/prebuilts")
 
 export PATH=$TOOLCHAIN/build-tools/linux-x86/bin:$PATH
 export PATH=$TOOLCHAIN/build-tools/path/linux-x86:$PATH
@@ -19,14 +19,14 @@ cflags+="-I$TOOLCHAIN/kernel-build-tools/linux-x86/include "
 ldflags+="-L $TOOLCHAIN/kernel-build-tools/linux-x86/lib64 "
 ldflags+=${LLD_COMPILER_RT}
 
-export LD_LIBRARY_PATH="$TOOLCHAIN/kernel-build-tools/linux-x86/lib64"
+export LD_LIBRARY_PATH="$TOOLCHAIN/kernel-build-tools/linux-x86/lib64 "
 export HOSTCFLAGS="$sysroot_flags $cflags"
 export HOSTLDFLAGS="$sysroot_flags $ldflags"
 TARGET_DEFCONFIG=${1:-sun_gki_defconfig}
 
 cd "$(dirname "$0")"
 
-echo "-android15-Kokuban-Herta-AYC2-LKM-g$(git rev-parse --short HEAD)" > ./localversion
+echo "-android15-Kokuban-Herta-AYC2-SukiSUU-g$(git rev-parse --short HEAD)" > ./localversion
 
 ARGS="
 CC=clang
