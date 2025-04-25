@@ -13,10 +13,10 @@ export PATH=$TOOLCHAIN/kernel-build-tools/linux-x86/bin:$PATH
 
 LLD_COMPILER_RT="-fuse-ld=lld --rtlib=compiler-rt"
 
-sysroot_flags+="--sysroot=$TOOLCHAIN/gcc/linux-x86/host/x86_64-linux-glibc2.17-4.8/sysroot "
+sysroot_flags+="--sysroot=$TOOLCHAIN/gcc/linux-x86/host/x86_64-linux-glibc2.17-4.8/sysroot"
 
-cflags+="-I$TOOLCHAIN/kernel-build-tools/linux-x86/include "
-ldflags+="-L $TOOLCHAIN/kernel-build-tools/linux-x86/lib64 "
+cflags+="-I$TOOLCHAIN/kernel-build-tools/linux-x86/include"
+ldflags+="-L $TOOLCHAIN/kernel-build-tools/linux-x86/lib64"
 ldflags+=${LLD_COMPILER_RT}
 
 export LD_LIBRARY_PATH="$TOOLCHAIN/kernel-build-tools/linux-x86/lib64"
