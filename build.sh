@@ -7,11 +7,11 @@ TOOLCHAIN=$(realpath "/home/kokuban/PlentyofToolchain/toolchainS25/kernel_platfo
 
 export PATH=$TOOLCHAIN/build-tools/linux-x86/bin:$PATH
 export PATH=$TOOLCHAIN/build-tools/path/linux-x86:$PATH
-export PATH=$TOOLCHAIN/clang/host/linux-x86/clang-r510928/bin:$PATH
-export PATH=$TOOLCHAIN/clang-tools/linux-x86/bin:$PATH
+export PATH=$TOOLCHAIN/clang-r522817/bin:$PATH
 export PATH=$TOOLCHAIN/kernel-build-tools/linux-x86/bin:$PATH
 
-LLD_COMPILER_RT="-fuse-ld=lld --rtlib=compiler-rt "
+
+LLD_COMPILER_RT="-fuse-ld=lld --rtlib=compiler-rt"
 
 sysroot_flags+="--sysroot=$TOOLCHAIN/gcc/linux-x86/host/x86_64-linux-glibc2.17-4.8/sysroot "
 
@@ -19,9 +19,10 @@ cflags+="-I$TOOLCHAIN/kernel-build-tools/linux-x86/include "
 ldflags+="-L $TOOLCHAIN/kernel-build-tools/linux-x86/lib64 "
 ldflags+=${LLD_COMPILER_RT}
 
-export LD_LIBRARY_PATH="$TOOLCHAIN/kernel-build-tools/linux-x86/lib64 "
+export LD_LIBRARY_PATH="$TOOLCHAIN/kernel-build-tools/linux-x86/lib64"
 export HOSTCFLAGS="$sysroot_flags $cflags"
 export HOSTLDFLAGS="$sysroot_flags $ldflags"
+
 TARGET_DEFCONFIG=${1:-sun_gki_defconfig}
 
 cd "$(dirname "$0")"
