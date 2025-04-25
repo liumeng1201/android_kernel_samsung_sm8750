@@ -11,7 +11,7 @@ export PATH=$TOOLCHAIN/clang/host/linux-x86/clang-r510928/bin:$PATH
 export PATH=$TOOLCHAIN/clang-tools/linux-x86/bin:$PATH
 export PATH=$TOOLCHAIN/kernel-build-tools/linux-x86/bin:$PATH
 
-LLD_COMPILER_RT="-fuse-ld=lld --rtlib=compiler-rt"
+LLD_COMPILER_RT="-fuse-ld=lld --rtlib=compiler-rt "
 
 sysroot_flags+="--sysroot=$TOOLCHAIN/gcc/linux-x86/host/x86_64-linux-glibc2.17-4.8/sysroot "
 
