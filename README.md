@@ -26,7 +26,7 @@
   - 内置 KernelSU 1.0.5
 
 - **MKSU**  
-  - 内置 KernelSU 提交版本 `5ec1cff`  
+  - 内置 KernelSU `5ec1cff`  
   - 支持 Magic Mount
 
 - **SukiSUU**  
