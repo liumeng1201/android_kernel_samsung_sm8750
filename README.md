@@ -122,7 +122,7 @@ Supports One UI 7.0 Stable and KernelSU integration.
   - Built-in KernelSU 1.0.5
 
 - **MKSU**  
-  - Built-in KernelSU commit `5ec1cff`  
+  - Built-in KernelSU `5ec1cff`  
   - Supports Magic Mount
 
 - **SukiSUU**  
