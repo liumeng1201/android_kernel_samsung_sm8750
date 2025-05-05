@@ -68,8 +68,6 @@
 
 # 🥺 小小拜托 
 
----
-
 ## 求求你了，不要拿这个内核去适配 KernelSU-Next 啦～  
 😭😭😭
 
@@ -87,6 +85,16 @@ KernelSU-Next 不是 KernelSU 官方开发的，也不是官方认可的改进�
 我真的会呜呜呜哭出来的！！！  
 (｡•́︿•̀｡)  
 拜托啦～谢谢谢谢！
+
+---
+
+## ☕ 支持我
+
+如果你觉得这个项目对你有帮助，可以通过以下方式支持我：
+
+- PayPal：[https://www.paypal.me/LangQin280](https://www.paypal.me/LangQin280)  
+- 支付宝：[点击打赏](https://qr.alipay.com/fkx13433fi3skccvxkldn48)  
+- 微信：`wxp://f2f0fS_33WFG-AtCBNKiMLIvR27Z64IAQteJ3mepyvSnaQg`
 
 ---
 
@@ -165,8 +173,6 @@ Supports One UI 7.0 Stable and KernelSU integration.
 
 # 🥺 A Little Request
 
----
-
 ## Please, please don't use this kernel for adapting KernelSU-Next~  
 😭😭😭
 
@@ -184,6 +190,16 @@ It's much more stable and trustworthy!
 I might actually burst into tears!!!  
 (｡•́︿•̀｡)  
 Pleaseee~ Thank you so much!
+
+---
+
+## ☕ Support Me
+
+If you find this project helpful and would like to support my work, you can do so via:
+
+- PayPal: [https://www.paypal.me/LangQin280](https://www.paypal.me/LangQin280)  
+- Alipay (Mainland China): [Click to donate](https://qr.alipay.com/fkx13433fi3skccvxkldn48)  
+- WeChat (Weixin): `wxp://f2f0fS_33WFG-AtCBNKiMLIvR27Z64IAQteJ3mepyvSnaQg`
 
 ---
 
