@@ -10,6 +10,7 @@
 - **基础：** 三星官方开源内核
 - **One UI 支持：** 完全兼容 One UI 7.0 稳定版
 - **KernelSU 兼容性：** 支持 KernelSU LKM 模式及更多
+- **更多压缩算法：** 额外支持启用 `lz4hc`, `lz4kd`, `842`, `deflate` 等多种压缩算法，兼容性更强，适用于日志、zram 等场景 
 - **版本格式：**  
   `6.6.30-android15-Kokuban-Herta-XXXX-XXX-gXXXXXXXXXX-4k`
 
@@ -106,6 +107,7 @@ Supports One UI 7.0 Stable and KernelSU integration.
 - **Base:** Samsung's open-source kernel
 - **One UI Support:** Fully compatible with One UI 7.0 Stable
 - **KernelSU Compatibility:** Supports KernelSU LKM mode and more
+- **More Compression Algorithms:** Additional support for `lz4hc`, `lz4kd`, `842`, `deflate`, and more, improving compatibility for use cases like logging and zram.
 - **Version Format:**  
   `6.6.30-android15-Kokuban-Herta-XXXX-XXX-gXXXXXXXXXX-4k`
 
