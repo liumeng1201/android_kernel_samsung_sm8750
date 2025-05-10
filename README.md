@@ -95,6 +95,7 @@ KernelSU-Next 不是 KernelSU 官方开发的，也不是官方认可的改进�
 - PayPal：[https://www.paypal.me/LangQin280](https://www.paypal.me/LangQin280)  
 - 支付宝：[点击打赏](https://qr.alipay.com/fkx13433fi3skccvxkldn48)  
 - 微信：`wxp://f2f0fS_33WFG-AtCBNKiMLIvR27Z64IAQteJ3mepyvSnaQg`
+- 币安: [虚拟货币](https://app.binance.com/qr/dplk879862a9139d41469d7f3f66a059c5e9)
 
 ---
 
@@ -200,7 +201,8 @@ If you find this project helpful and would like to support my work, you can do s
 - PayPal: [https://www.paypal.me/LangQin280](https://www.paypal.me/LangQin280)  
 - Alipay (Mainland China): [Click to donate](https://qr.alipay.com/fkx13433fi3skccvxkldn48)  
 - WeChat (Weixin): `wxp://f2f0fS_33WFG-AtCBNKiMLIvR27Z64IAQteJ3mepyvSnaQg`
-
+- Binance: [Virtual currency](https://app.binance.com/qr/dplk879862a9139d41469d7f3f66a059c5e9)
+  
 ---
 
 Thank you for your support!  
