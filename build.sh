@@ -27,7 +27,7 @@ TARGET_DEFCONFIG=${1:-sun_gki_defconfig}
 
 cd "$(dirname "$0")"
 
-echo "-android15-Kokuban-Herta-AYC2-LKM-g$(git rev-parse --short HEAD)" > ./localversion
+echo "-android15-Kokuban-Herta-AYDA-LKM-g$(git rev-parse --short HEAD)" > ./localversion
 
 ARGS="
 CC=clang
