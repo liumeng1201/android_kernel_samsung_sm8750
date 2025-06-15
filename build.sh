@@ -2,6 +2,8 @@
 
 set -e
 
+LTO=full
+
 # download toolchain from https://opensource.samsung.com/uploadSearch?searchValue=toolchain 
 TOOLCHAIN=$(realpath "/home/kokuban/PlentyofToolchain/toolchainS25/kernel_platform/prebuilts")
 
@@ -69,8 +71,13 @@ cd out
 if [ ! -d AnyKernel3 ]; then
   git clone --depth=1 https://github.com/YuzakiKokuban/AnyKernel3.git -b sun
 fi
-cp arch/arm64/boot/Image AnyKernel3/zImage
+cp arch/arm64/boot/Image AnyKernel3/Image
 cd AnyKernel3
+chmod +x ./patch_linux
+./patch_linux
+mv oImage zImage
+rm -f oImage
+rm -f Image
 rm -f patch_linux
 cd ..
 name=S25_kernel_`cat include/config/kernel.release`_`date '+%Y_%m_%d'`
