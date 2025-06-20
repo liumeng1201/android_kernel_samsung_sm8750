@@ -92,9 +92,15 @@ echo "--- 正在禁用三星安全特性 (RKP, KDP, etc.) ---"
   -d FIVE_DEFAULT_HASH
 
 # 4. 配置 LTO (如果已启用)
-if [ "$LTO" == "thin" ]; then
+if [ "$LTO" == "full" ]; then
+    echo "--- 正在启用 FullLTO ---"
+    ./scripts/config --file out/.config -e LTO_CLANG_FULL -d LTO_CLANG_THIN
+elif [ "$LTO" == "thin" ]; then
     echo "--- 正在启用 ThinLTO ---"
     ./scripts/config --file out/.config -e LTO_CLANG_THIN -d LTO_CLANG_FULL
+else
+    echo "--- LTO 已禁用 ---"
+    ./scripts/config --file out/.config -d LTO_CLANG_FULL -d LTO_CLANG_THIN
 fi
 
 # 5. 写入 localversion 文件
