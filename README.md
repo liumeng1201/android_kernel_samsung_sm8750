@@ -32,7 +32,7 @@
 
 - **SukiSUU**  
   - 内置 SukiSU-Ultra  
-  - 支持 SUSFS 1.5.7
+  - 支持 SUSFS 1.5.7 和 KPM模块
 
 ---
 
