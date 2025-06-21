@@ -15,11 +15,11 @@ LOCALVERSION_BASE=-android15-Kokuban-Herta-AYDA-SukiSUU
 
 # 3. LTO (Link Time Optimization)
 # 设置为 "full", "thin" 或 "" (留空以禁用)
-LTO="full"
+LTO=""
 
 # 4. 工具链路径
 # 指向你的 S25 新工具链的 'prebuilts' 目录
-TOOLCHAIN_DIR=$(realpath "/home/kokuban/PlentyofToolchain/toolchainS25/kernel_platform/prebuilts")
+TOOLCHAIN=$(realpath "/home/kokuban/PlentyofToolchain/toolchainS25/kernel_platform/prebuilts")
 
 # 5. AnyKernel3 打包配置
 ANYKERNEL_REPO="https://github.com/YuzakiKokuban/AnyKernel3.git"
@@ -35,23 +35,24 @@ cd "$(dirname "$0")"
 
 # --- 环境和路径设置 (S25) ---
 echo "--- 正在设置 S25 工具链环境 ---"
-export PATH="$TOOLCHAIN_DIR/build-tools/linux-x86/bin:$PATH"
-export PATH="$TOOLCHAIN_DIR/build-tools/path/linux-x86:$PATH"
-export PATH="$TOOLCHAIN_DIR/clang/host/linux-x86/clang-r510928/bin:$PATH"
-export PATH="$TOOLCHAIN_DIR/clang-tools/linux-x86/bin:$PATH"
-export PATH="$TOOLCHAIN_DIR/kernel-build-tools/linux-x86/bin:$PATH"
+export PATH=$TOOLCHAIN/build-tools/linux-x86/bin:$PATH
+export PATH=$TOOLCHAIN/build-tools/path/linux-x86:$PATH
+export PATH=$TOOLCHAIN/clang/host/linux-x86/clang-r510928/bin:$PATH
+export PATH=$TOOLCHAIN/clang-tools/linux-x86/bin:$PATH
+export PATH=$TOOLCHAIN/kernel-build-tools/linux-x86/bin:$PATH
 
 # 设置编译和链接器标志
 LLD_COMPILER_RT="-fuse-ld=lld --rtlib=compiler-rt"
-SYSROOT_FLAGS="--sysroot=$TOOLCHAIN_DIR/gcc/linux-x86/host/x86_64-linux-glibc2.17-4.8/sysroot"
-CFLAGS="-I$TOOLCHAIN_DIR/kernel-build-tools/linux-x86/include"
-LDFLAGS="-L $TOOLCHAIN_DIR/kernel-build-tools/linux-x86/lib64 ${LLD_COMPILER_RT}"
 
-export LD_LIBRARY_PATH="$TOOLCHAIN_DIR/kernel-build-tools/linux-x86/lib64"
-export HOSTCFLAGS="$SYSROOT_FLAGS $CFLAGS"
-export HOSTLDFLAGS="$SYSROOT_FLAGS $LDFLAGS"
-export KBUILD_BUILD_USER="Kokuban"
-export KBUILD_BUILD_HOST="Kokuban-PC"
+sysroot_flags+="--sysroot=$TOOLCHAIN/gcc/linux-x86/host/x86_64-linux-glibc2.17-4.8/sysroot "
+
+cflags+="-I$TOOLCHAIN/kernel-build-tools/linux-x86/include "
+ldflags+="-L $TOOLCHAIN/kernel-build-tools/linux-x86/lib64 "
+ldflags+=${LLD_COMPILER_RT}
+
+export LD_LIBRARY_PATH="$TOOLCHAIN/kernel-build-tools/linux-x86/lib64"
+export HOSTCFLAGS="$sysroot_flags $cflags"
+export HOSTLDFLAGS="$sysroot_flags $ldflags"
 
 # =============================== 核心编译参数 ===============================
 MAKE_ARGS="
@@ -179,7 +180,7 @@ cd tools
 chmod +x libmagiskboot.so
 lz4 boot.img.lz4
 ./libmagiskboot.so repack boot.img
-mv boot.img "../../${final_name}.img"
+mv new-boot.img "../../${final_name}.img"
 cd ../.. # 返回到 out 目录
 
 echo "======================================================"
