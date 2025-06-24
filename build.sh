@@ -11,7 +11,7 @@ MAIN_DEFCONFIG=sun_gki_defconfig
 
 # 2. 内核版本标识
 # git commit hash 会自动附加
-LOCALVERSION_BASE=-android15-Kokuban-Herta-AYDA-SukiSUU
+LOCALVERSION_BASE=-android15-Kokuban-Herta-AYE7-SukiSUU
 
 # 3. LTO (Link Time Optimization)
 # 设置为 "full", "thin" 或 "" (留空以禁用)
