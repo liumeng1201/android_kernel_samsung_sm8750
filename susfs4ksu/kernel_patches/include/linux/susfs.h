@@ -40,15 +40,13 @@ struct st_susfs_sus_path_list {
 };
 
 struct st_android_data_path {
-	unsigned long                    i_ino;
-	unsigned long                    s_magic;
 	char                             pathname[SUSFS_MAX_LEN_PATHNAME];
+	bool                             is_inited;
 };
 
 struct st_sdcard_path {
-	unsigned long                    i_ino;
-	unsigned long                    s_magic;
 	char                             pathname[SUSFS_MAX_LEN_PATHNAME];
+	bool                             is_inited;
 };
 #endif
 
@@ -194,6 +192,9 @@ struct filename* susfs_get_redirected_path(unsigned long ino);
 int susfs_get_sus_su_working_mode(void);
 int susfs_sus_su(struct st_sus_su* __user user_info);
 #endif
+
+int susfs_get_enabled_features(char __user* buf, size_t bufsize);
+
 /* susfs_init */
 void susfs_init(void);
 
