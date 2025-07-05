@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+    #!/usr/bin/env bash
 
 # 脚本出错时立即退出
 set -e
@@ -110,7 +110,7 @@ else
 fi
 
 # 5. 写入 localversion 文件
-version_string="${LOCALVERSION_BASE}"
+version_string="${LOCALVERSION_BASE}-g$(git rev-parse --short HEAD)"
 echo "--- 正在写入版本号: ${version_string} ---"
 echo "${version_string}" > ./localversion
 
