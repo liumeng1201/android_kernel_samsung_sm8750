@@ -19,7 +19,7 @@ LTO=""
 
 # 4. 工具链路径
 # 指向你的 S25 新工具链的 'prebuilts' 目录
-TOOLCHAIN=$(realpath "/home/kokuban/PlentyofToolchain/toolchainS25/kernel_platform/prebuilts")
+TOOLCHAIN=$(realpath "./toolchain/toolchainS25/kernel_platform/prebuilts")
 
 # 5. AnyKernel3 打包配置
 ANYKERNEL_REPO="https://github.com/YuzakiKokuban/AnyKernel3.git"
