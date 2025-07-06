@@ -1,4 +1,4 @@
-    #!/usr/bin/env bash
+#!/usr/bin/env bash
 
 # 脚本出错时立即退出
 set -e
@@ -19,7 +19,7 @@ LTO=""
 
 # 4. 工具链路径
 # 指向你的 S25 新工具链的 'prebuilts' 目录
-TOOLCHAIN=$(realpath "./toolchain/toolchainS25/kernel_platform/prebuilts")
+TOOLCHAIN=$(realpath "./toolchain/kernel_platform/prebuilts")
 
 # 5. AnyKernel3 打包配置
 ANYKERNEL_REPO="https://github.com/YuzakiKokuban/AnyKernel3.git"
@@ -151,8 +151,8 @@ chmod +x ./patch_linux
 # patch_linux 脚本会生成 oImage, 我们将其重命名为 AnyKernel3 所需的 zImage
 mv oImage zImage
 # 清理中间文件
-rm -f Image oImage patch_linux
-echo "--- patch_linux 执行完毕, 已生成 zImage ---"
+rm -f patch_linux oImage Image
+# echo "--- patch_linux 执行完毕, 已生成 zImage ---"
 
 # 检查 lz4 命令是否存在
 if ! command -v lz4 &> /dev/null; then
