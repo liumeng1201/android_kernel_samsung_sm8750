@@ -11,7 +11,7 @@ MAIN_DEFCONFIG=sun_gki_defconfig
 
 # 2. 内核版本标识
 # git commit hash 会自动附加
-LOCALVERSION_BASE=-android15-Kokuban-Herta-AYE7-MKSU
+LOCALVERSION_BASE=-android15-Kokuban-Herta-AYF1-MKSU
 
 # 3. LTO (Link Time Optimization)
 # 设置为 "full", "thin" 或 "" (留空以禁用)
@@ -19,7 +19,7 @@ LTO=""
 
 # 4. 工具链路径
 # 指向你的 S25 新工具链的 'prebuilts' 目录
-TOOLCHAIN=$(realpath "/home/kokuban/PlentyofToolchain/toolchainS25/kernel_platform/prebuilts")
+TOOLCHAIN=$(realpath "./toolchain/kernel_platform/prebuilts")
 
 # 5. AnyKernel3 打包配置
 ANYKERNEL_REPO="https://github.com/YuzakiKokuban/AnyKernel3.git"
