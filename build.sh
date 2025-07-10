@@ -144,15 +144,20 @@ cp arch/arm64/boot/Image AnyKernel3/Image
 
 cd AnyKernel3
 
-# 运行 patch_linux 脚本
+# 运行 patch_linux 脚本 (如果存在)
 echo "--- 正在运行 patch_linux ---"
-chmod +x ./patch_linux
-./patch_linux
-# patch_linux 脚本会生成 oImage, 我们将其重命名为 AnyKernel3 所需的 zImage
-mv oImage zImage
-# 清理中间文件
-rm -f patch_linux oImage Image
-# echo "--- patch_linux 执行完毕, 已生成 zImage ---"
+if [ ! -f "patch_linux" ]; then
+    echo "警告: 未找到 'patch_linux' 脚本，将直接使用原始 Image 作为 zImage。"
+    mv Image zImage
+else
+    chmod +x ./patch_linux
+    ./patch_linux
+    # patch_linux 脚本会生成 oImage, 我们将其重命名为 AnyKernel3 所需的 zImage
+    mv oImage zImage
+    # 清理中间文件
+    rm -f Image oImage patch_linux
+    echo "--- patch_linux 执行完毕, 已生成 zImage ---"
+fi
 
 # 检查 lz4 命令是否存在
 if ! command -v lz4 &> /dev/null; then
