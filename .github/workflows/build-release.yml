@@ -48,12 +48,10 @@ jobs:
       - name: Download and Extract Toolchain
         run: |
           echo "开始从 GitHub Releases 下载工具链分卷..."
-          # !! 已更新为使用你提供的确切链接 !!
           wget -O toolchain.part00 "https://github.com/YuzakiKokuban/android_kernel_samsung_sm8750/releases/download/toolchain/toolchainS25.tar.gz.00"
           wget -O toolchain.part01 "https://github.com/YuzakiKokuban/android_kernel_samsung_sm8750/releases/download/toolchain/toolchainS25.tar.gz.01"
           
           echo "合并所有分卷..."
-          # 使用 cat 命令将所有分卷合并成一个完整的 .tar.gz 文件
           cat toolchain.part* > toolchain.tar.gz
 
           echo "创建临时解压目录并开始解压..."
@@ -65,9 +63,8 @@ jobs:
           
           echo "移动文件到正确的工具链目录..."
           mkdir -p ./toolchain
-          # !! 关键：根据上面 ls 的输出，确认解压后的文件夹名是否为 kernel_platform !!
-          # tar 命令在打包时包含了 kernel_platform 目录，所以这里直接移动它
-          mv ./toolchain_temp/kernel_platform/* ./toolchain/
+          # !! 关键修复：移动 kernel_platform 文件夹本身，而不是其内容 !!
+          mv ./toolchain_temp/kernel_platform ./toolchain/
           
           echo "清理下载和临时文件..."
           rm toolchain.part* toolchain.tar.gz
