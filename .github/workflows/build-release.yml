@@ -75,12 +75,27 @@ jobs:
           
           echo "工具链准备完毕。"
 
-      # 第四步：设置 KernelSU
-      - name: Setup KernelSU
+      # 第四步：根据分支设置 KernelSU
+      - name: Setup KernelSU based on branch
         run: |
-          echo "Setting up KernelSU..."
-          curl -LSs "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU-Ultra/main/kernel/setup.sh" | bash -s susfs-main
-          echo "KernelSU setup complete."
+          # 使用 github.ref_name 获取当前分支的名称
+          BRANCH_NAME="${{ github.ref_name }}"
+          echo "当前分支是: $BRANCH_NAME"
+
+          if [[ "$BRANCH_NAME" == "sukisuultra" ]]; then
+            echo "正在为 sukisuultra 分支设置 KernelSU..."
+            curl -LSs "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU-Ultra/main/kernel/setup.sh" | bash -s susfs-main
+          elif [[ "$BRANCH_NAME" == "mksu" ]]; then
+            echo "正在为 mksu 分支设置 KernelSU..."
+            curl -LSs "https://raw.githubusercontent.com/5ec1cff/KernelSU/main/kernel/setup.sh" | bash -
+          elif [[ "$BRANCH_NAME" == "ksu" ]]; then
+            echo "正在为 ksu 分支设置 KernelSU..."
+            curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -
+          else
+            echo "当前分支 ($BRANCH_NAME) 不需要设置 KernelSU，跳过此步骤。"
+          fi
+          
+          echo "KernelSU 设置步骤完成。"
 
       # 第五步：运行构建和发布脚本
       - name: Run Build and Release Script
