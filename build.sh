@@ -31,6 +31,8 @@ GITHUB_REPO="YuzakiKokuban/android_kernel_samsung_sm8750"
 AUTO_RELEASE=true
 # 设置为 true 以发布为 Pre-release (预发布)
 IS_PRERELEASE=true
+# 设置为 false 以跳过patch_linux
+PATCH_LINUX=true
 
 # --- 脚本开始 ---
 
@@ -128,6 +130,10 @@ fi
 
 cp arch/arm64/boot/Image AnyKernel3/Image
 cd AnyKernel3
+
+if [ "$PATCH_LINUX" == "false" ]; then
+    rm -f patch_linux
+fi
 
 echo "--- 正在运行 patch_linux ---"
 if [ ! -f "patch_linux" ]; then
