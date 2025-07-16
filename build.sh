@@ -219,7 +219,12 @@ if [ -z "$GH_TOKEN" ]; then
     exit 1
 fi
 
-TAG="release-$(date +%Y%m%d-%H%M%S)"
+# 从 LOCALVERSION_BASE 提取构建类型 (最后一个'-'之后的部分)
+BUILD_TYPE=${LOCALVERSION_BASE##*-}
+
+# 创建一个包含构建类型的唯一标签名
+TAG="release-${BUILD_TYPE}-$(date +%Y%m%d-%H%M%S)"
+
 RELEASE_TITLE="新内核构建 - ${kernel_release} ($(date +'%Y-%m-%d %R'))"
 RELEASE_NOTES="由构建脚本在 $(date) 自动发布。"
 
