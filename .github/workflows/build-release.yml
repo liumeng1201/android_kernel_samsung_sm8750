@@ -28,11 +28,10 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          # 关键改动：
           # 如果是手动触发，使用你输入的分支 (github.event.inputs.branch)
           # 如果是 push 触发，使用事件对应的分支 (github.ref)
           ref: ${{ github.event.inputs.branch || github.ref }}
-          # 如果你的内核源码依赖子模块，这个选项会自动拉取
+          # 如果你的内核源码还依赖其他子模块，可以保留此项
           submodules: 'recursive'
 
       # 第二步：安装所有编译所需的依赖包
@@ -41,28 +40,24 @@ jobs:
           # 更新包列表
           sudo apt-get update
           # 安装编译内核和打包所需的各种工具
-          # 包括 git, build-essential, lz4, 以及解压用的 p7zip-full
+          # !! 已在此处添加 curl !!
           sudo apt-get install -y \
             build-essential git libncurses5-dev bc bison flex libssl-dev \
-            p7zip-full lz4 cpio
+            p7zip-full lz4 cpio curl
 
       # 第三步：下载、解压并整理工具链
       - name: Download and Extract Toolchain
         run: |
           echo "开始从 OneDrive 下载工具链..."
-          # !! 在下面这行的引号中，粘贴你的 OneDrive 直链 !!
+          # 使用你提供的 OneDrive 直链
           wget -O toolchain.7z "https://heibanblbd-my.sharepoint.com/personal/heibanblbd_heibanblbd_onmicrosoft_com/_layouts/15/download.aspx?SourceUrl=%2Fpersonal%2Fheibanblbd_heibanblbd_onmicrosoft_com%2FDocuments%2F%E5%B7%A5%E5%85%B7%E9%93%BE%2FtoolchainS25.7z"
           
           echo "创建临时解压目录并开始解压..."
-          # 创建一个临时目录来安全地存放解压后的内容
           mkdir -p ./toolchain_temp
           7z x toolchain.7z -o./toolchain_temp
           
           echo "移动文件到正确的工具链目录..."
-          # 创建 build.sh 脚本期望的最终目录
           mkdir -p ./toolchain
-          # 将解压后子目录(toolchainS25)中的所有内容移动到目标位置
-          # 这会处理压缩包内额外的目录层级
           mv ./toolchain_temp/toolchainS25/* ./toolchain/
           
           echo "清理下载和临时文件..."
@@ -71,15 +66,19 @@ jobs:
           
           echo "工具链准备完毕。"
 
-      # 第四步：运行构建和发布脚本
+      # 第四步：设置 KernelSU (关键修复步骤)
+      - name: Setup KernelSU
+        run: |
+          echo "Setting up KernelSU..."
+          curl -LSs "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU-Ultra/main/kernel/setup.sh" | bash -s susfs-main
+          echo "KernelSU setup complete."
+
+      # 第五步：运行构建和发布脚本
       - name: Run Build and Release Script
-        # 通过 env 将 GitHub Token 传递给脚本
-        # 注意：GH_TOKEN 仍然建议使用 Secret 以保证安全
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           echo "赋予构建脚本执行权限..."
-          # 已将脚本名更正为 build.sh
           chmod +x ./build.sh
           
           echo "开始执行构建和发布脚本..."
