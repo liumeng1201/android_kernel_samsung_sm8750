@@ -75,8 +75,8 @@ jobs:
       # 第四步：根据分支设置 KernelSU
       - name: Setup KernelSU based on branch
         run: |
-          # 使用 github.ref_name 获取当前分支的名称
-          BRANCH_NAME="${{ github.ref_name }}"
+          # !! 关键修复：使用 github.event.inputs.branch 来获取手动输入的分支名 !!
+          BRANCH_NAME="${{ github.event.inputs.branch }}"
           echo "当前分支是: $BRANCH_NAME"
 
           if [[ "$BRANCH_NAME" == "sukisuultra" ]]; then
