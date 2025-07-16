@@ -44,29 +44,33 @@ jobs:
             build-essential git libncurses5-dev bc bison flex libssl-dev \
             p7zip-full lz4 cpio curl
 
-      # 第三步：下载、解压并整理工具链
+      # 第三步：下载、合并并解压工具链
       - name: Download and Extract Toolchain
         run: |
-          echo "开始从 GitHub Releases 下载工具链..."
-          # !! 已更新为使用你提供的 GitHub Release 链接 !!
-          # 这是一个稳定可靠的直接下载链接
-          wget -O toolchain.7z "https://github.com/YuzakiKokuban/android_kernel_samsung_sm8750/releases/download/toolchain/toolchainS25.7z"
+          echo "开始从 GitHub Releases 下载工具链分卷..."
+          # !! 已更新为使用你提供的确切链接 !!
+          wget -O toolchain.part00 "https://github.com/YuzakiKokuban/android_kernel_samsung_sm8750/releases/download/toolchain/toolchainS25.tar.gz.00"
+          wget -O toolchain.part01 "https://github.com/YuzakiKokuban/android_kernel_samsung_sm8750/releases/download/toolchain/toolchainS25.tar.gz.01"
           
+          echo "合并所有分卷..."
+          # 使用 cat 命令将所有分卷合并成一个完整的 .tar.gz 文件
+          cat toolchain.part* > toolchain.tar.gz
+
           echo "创建临时解压目录并开始解压..."
           mkdir -p ./toolchain_temp
-          7z x toolchain.7z -o./toolchain_temp
+          tar -xzvf toolchain.tar.gz -C ./toolchain_temp/
           
-          # !! 调试步骤：列出解压后的目录结构，以确认文件夹名称 !!
           echo "列出解压后的目录结构:"
           ls -R ./toolchain_temp
           
           echo "移动文件到正确的工具链目录..."
           mkdir -p ./toolchain
-          # !! 下一行的 toolchainS25 可能需要根据上面的输出进行修改 !!
-          mv ./toolchain_temp/toolchainS25/* ./toolchain/
+          # !! 关键：根据上面 ls 的输出，确认解压后的文件夹名是否为 kernel_platform !!
+          # tar 命令在打包时包含了 kernel_platform 目录，所以这里直接移动它
+          mv ./toolchain_temp/kernel_platform/* ./toolchain/
           
           echo "清理下载和临时文件..."
-          rm toolchain.7z
+          rm toolchain.part* toolchain.tar.gz
           rm -rf ./toolchain_temp
           
           echo "工具链准备完毕。"
