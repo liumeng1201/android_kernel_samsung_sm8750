@@ -40,7 +40,6 @@ jobs:
           # 更新包列表
           sudo apt-get update
           # 安装编译内核和打包所需的各种工具
-          # !! 已在此处添加 curl !!
           sudo apt-get install -y \
             build-essential git libncurses5-dev bc bison flex libssl-dev \
             p7zip-full lz4 cpio curl
@@ -49,8 +48,8 @@ jobs:
       - name: Download and Extract Toolchain
         run: |
           echo "开始从 OneDrive 下载工具链..."
-          # 使用你提供的 OneDrive 直链
-          wget -O toolchain.7z "https://heibanblbd-my.sharepoint.com/personal/heibanblbd_heibanblbd_onmicrosoft_com/_layouts/15/download.aspx?SourceUrl=%2Fpersonal%2Fheibanblbd_heibanblbd_onmicrosoft_com%2FDocuments%2F%E5%B7%A5%E5%85%B7%E9%93%BE%2FtoolchainS25.7z"
+          # !! 已更新为从你提供的 iframe 中提取的直接下载链接 !!
+          wget -O toolchain.7z "https://heibanblbd-my.sharepoint.com/personal/heibanblbd_heibanblbd_onmicrosoft_com/_layouts/15/download.aspx?UniqueId=5a45eba9-889b-4631-8ae1-7df7ee94ff89"
           
           echo "创建临时解压目录并开始解压..."
           mkdir -p ./toolchain_temp
