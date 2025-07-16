@@ -1,0 +1,87 @@
+# GitHub Actions Workflow 的名称
+name: Build Kernel & Release (S25)
+
+# 工作流的触发条件
+on:
+  # 允许你手动在 Actions 页面点击 "Run workflow" 来触发
+  workflow_dispatch:
+    # 添加输入字段，用于手动指定分支
+    inputs:
+      branch:
+        description: '要编译的分支名 (例如 main)'
+        required: true
+        # 默认值设为 main 分支
+        default: 'main'
+  
+  # 当有代码推送到 main 分支时自动触发
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    # 指定运行环境为最新的 Ubuntu 系统
+    runs-on: ubuntu-latest
+
+    steps:
+      # 第一步：检出你的仓库代码
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          # 关键改动：
+          # 如果是手动触发，使用你输入的分支 (github.event.inputs.branch)
+          # 如果是 push 触发，使用事件对应的分支 (github.ref)
+          ref: ${{ github.event.inputs.branch || github.ref }}
+          # 如果你的内核源码依赖子模块，这个选项会自动拉取
+          submodules: 'recursive'
+
+      # 第二步：安装所有编译所需的依赖包
+      - name: Install Dependencies
+        run: |
+          # 更新包列表
+          sudo apt-get update
+          # 安装编译内核和打包所需的各种工具
+          # 包括 git, build-essential, lz4, 以及解压用的 p7zip-full
+          sudo apt-get install -y \
+            build-essential git libncurses5-dev bc bison flex libssl-dev \
+            p7zip-full lz4 cpio
+
+      # 第三步：下载、解压并整理工具链
+      - name: Download and Extract Toolchain
+        run: |
+          echo "开始从 OneDrive 下载工具链..."
+          # !! 在下面这行的引号中，粘贴你的 OneDrive 直链 !!
+          wget -O toolchain.7z "https://heibanblbd-my.sharepoint.com/personal/heibanblbd_heibanblbd_onmicrosoft_com/_layouts/15/download.aspx?SourceUrl=%2Fpersonal%2Fheibanblbd_heibanblbd_onmicrosoft_com%2FDocuments%2F%E5%B7%A5%E5%85%B7%E9%93%BE%2FtoolchainS25.7z"
+          
+          echo "创建临时解压目录并开始解压..."
+          # 创建一个临时目录来安全地存放解压后的内容
+          mkdir -p ./toolchain_temp
+          7z x toolchain.7z -o./toolchain_temp
+          
+          echo "移动文件到正确的工具链目录..."
+          # 创建 build.sh 脚本期望的最终目录
+          mkdir -p ./toolchain
+          # 将解压后子目录(toolchainS25)中的所有内容移动到目标位置
+          # 这会处理压缩包内额外的目录层级
+          mv ./toolchain_temp/toolchainS25/* ./toolchain/
+          
+          echo "清理下载和临时文件..."
+          rm toolchain.7z
+          rm -rf ./toolchain_temp
+          
+          echo "工具链准备完毕。"
+
+      # 第四步：运行构建和发布脚本
+      - name: Run Build and Release Script
+        # 通过 env 将 GitHub Token 传递给脚本
+        # 注意：GH_TOKEN 仍然建议使用 Secret 以保证安全
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          echo "赋予构建脚本执行权限..."
+          # 已将脚本名更正为 build.sh
+          chmod +x ./build.sh
+          
+          echo "开始执行构建和发布脚本..."
+          ./build.sh
+
