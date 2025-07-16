@@ -163,24 +163,40 @@ final_name="${ZIP_NAME_PREFIX}_${kernel_release}_$(date '+%Y%m%d')"
 echo "--- 正在创建 Zip 刷机包: ${final_name}.zip ---"
 zip -r9 "../${final_name}.zip" . -x "*.zip"
 
-echo "--- 正在创建 boot.img: ${final_name}.img ---"
-cp zImage tools/kernel
-cd tools
-chmod +x libmagiskboot.so
-lz4 boot.img.lz4
-./libmagiskboot.so repack boot.img
-mv new-boot.img "../../${final_name}.img"
-cd ../.. # 返回到 out 目录
+# 获取刷机包的绝对路径
+ZIP_FILE_PATH=$(realpath "../${final_name}.zip")
+# 默认只上传刷机包
+UPLOAD_FILES="$ZIP_FILE_PATH"
 
-# 获取产物的绝对路径
-ZIP_FILE_PATH=$(realpath "${final_name}.zip")
-IMG_FILE_PATH=$(realpath "${final_name}.img")
+# 检查是否在 GitHub Actions 环境中 (CI=true)
+# 如果不是在 CI 环境中，才创建 .img 文件
+if [ "$CI" != "true" ]; then
+    echo "--- 正在创建 boot.img: ${final_name}.img ---"
+    cp zImage tools/kernel
+    cd tools
+    chmod +x libmagiskboot.so
+    lz4 boot.img.lz4
+    ./libmagiskboot.so repack boot.img
+    mv new-boot.img "../../${final_name}.img"
+    cd ../.. # 返回到 out 目录
 
-echo "======================================================"
-echo "成功！"
-echo "刷机包输出到: ${ZIP_FILE_PATH}"
-echo "Boot 镜像输出到: ${IMG_FILE_PATH}"
-echo "======================================================"
+    IMG_FILE_PATH=$(realpath "${final_name}.img")
+    # 将 .img 文件也加入到上传列表
+    UPLOAD_FILES="$UPLOAD_FILES $IMG_FILE_PATH"
+
+    echo "======================================================"
+    echo "成功！"
+    echo "刷机包输出到: ${ZIP_FILE_PATH}"
+    echo "Boot 镜像输出到: ${IMG_FILE_PATH}"
+    echo "======================================================"
+else
+    # 在 CI 环境中，只需返回到 out 目录
+    cd ../.. # 返回到 out 目录
+    echo "======================================================"
+    echo "成功！ (已跳过创建 .img)"
+    echo "刷机包输出到: ${ZIP_FILE_PATH}"
+    echo "======================================================"
+fi
 
 
 # ======================================================================
@@ -218,17 +234,15 @@ fi
 echo "仓库: $GITHUB_REPO"
 echo "标签: $TAG"
 echo "标题: $RELEASE_TITLE"
-echo "上传文件: "
-echo "  - ${ZIP_FILE_PATH}"
-echo "  - ${IMG_FILE_PATH}"
+echo "上传文件: $UPLOAD_FILES"
 
 echo "--- 准备执行发布命令 ---"
 
 set +e # 临时禁用 "exit on error"
 
+# 使用 UPLOAD_FILES 变量来决定上传哪些文件
 RELEASE_OUTPUT=$(gh release create "$TAG" \
-    "$ZIP_FILE_PATH" \
-    "$IMG_FILE_PATH" \
+    $UPLOAD_FILES \
     --repo "$GITHUB_REPO" \
     --title "$RELEASE_TITLE" \
     --notes "$RELEASE_NOTES" \
