@@ -35,6 +35,7 @@
 #if defined(CONFIG_KSU_SUSFS_SUS_MOUNT) || defined(CONFIG_KSU_SUSFS_TRY_UMOUNT)
 #include <linux/susfs_def.h>
 #endif
+
 #include "pnode.h"
 #include "internal.h"
 #include <trace/hooks/blk.h>
@@ -43,7 +44,7 @@
 #include <linux/fslog.h>
 #endif
 #include <trace/hooks/fs.h>
- 
+
 #ifdef CONFIG_KSU_SUSFS_SUS_MOUNT
 extern bool susfs_is_current_ksu_domain(void);
 extern bool susfs_is_current_zygote_domain(void);
