@@ -1,3 +1,5 @@
+--- fs/namespace.c
++++ fs/namespace.c
 @@ -32,12 +32,38 @@
  #include <linux/fs_context.h>
  #include <linux/shmem_fs.h>
