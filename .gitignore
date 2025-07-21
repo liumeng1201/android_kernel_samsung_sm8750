@@ -2,4 +2,4 @@
 kernel_build_log.txt
 /out
 /KernelSU
-.DSstore
+.DS_Store
