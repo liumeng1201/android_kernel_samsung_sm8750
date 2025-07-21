@@ -11,7 +11,7 @@
 #include <linux/skbuff.h>
 
 // Corrected include order
-#include <linux/netfilter/x_tables.hh>
+#include <linux/netfilter/x_tables.h>
 #include <linux/netfilter/xt_mark.h>
 
 MODULE_LICENSE("GPL");
