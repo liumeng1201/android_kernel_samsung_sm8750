@@ -11,7 +11,6 @@
 #include <linux/skbuff.h>
 
 #include <linux/netfilter/xt_mark.h>
-#include <linux/netfilter/xt_MARK.h>
 #include <linux/netfilter/x_tables.h>
 
 MODULE_LICENSE("GPL");
