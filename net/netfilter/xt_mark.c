@@ -10,8 +10,9 @@
 #include <linux/module.h>
 #include <linux/skbuff.h>
 
+// Corrected include order
+#include <linux/netfilter/x_tables.hh>
 #include <linux/netfilter/xt_mark.h>
-#include <linux/netfilter/x_tables.h>
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Marc Boucher <marc@mbsi.ca>");
