@@ -8,14 +8,19 @@ on:
     # 添加输入字段
     inputs:
       branch:
-        description: '要编译的分支名 (例如 main)'
+        description: '选择要编译的分支'
         required: true
+        # !! 关键改动：将输入框改为下拉选择框 !!
+        type: choice
+        options:
+          - main
+          - sukisuultra
+          - mksu
+          - ksu
         default: 'main'
-      # 新增：是否为 Pre-release 的选项
       is_prerelease:
         description: '是否标记为预发布 (Pre-release)?'
         required: true
-        # 类型为 boolean 会在页面上显示为一个复选框
         type: boolean
         default: true
 
