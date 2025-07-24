@@ -81,10 +81,10 @@ jobs:
             curl -LSs "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU-Ultra/main/kernel/setup.sh" | bash -s susfs-main
           elif [[ "$KSU_TYPE" == "mksu" ]]; then
             echo "正在运行 mksu 的 setup.sh..."
-            curl -LSs "https://raw.githubusercontent.com/5ec1cff/KernelSU/main/kernel/setup.sh" | bash -
+            curl -LSs "https://raw.githubusercontent.com/5ec1cff/KernelSU/main/kernel/setup.sh" | bash -s main
           elif [[ "$KSU_TYPE" == "ksu" ]]; then
             echo "正在运行官方 ksu 的 setup.sh..."
-            curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -
+            curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -s main
           fi
           
           echo "KernelSU setup.sh 运行完毕。"
