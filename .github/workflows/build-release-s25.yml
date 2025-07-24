@@ -83,10 +83,10 @@ jobs:
             curl -LSs "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU-Ultra/main/kernel/setup.sh" | bash -s susfs-main
           elif [[ "$BRANCH_NAME" == "mksu" ]]; then
             echo "正在为 mksu 分支设置 KernelSU..."
-            curl -LSs "https://raw.githubusercontent.com/5ec1cff/KernelSU/main/kernel/setup.sh" | bash -
+            curl -LSs "https://raw.githubusercontent.com/5ec1cff/KernelSU/main/kernel/setup.sh" | bash -s main
           elif [[ "$BRANCH_NAME" == "ksu" ]]; then
             echo "正在为 ksu 分支设置 KernelSU..."
-            curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -
+            curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -s main
           else
             echo "当前分支 ($BRANCH_NAME) 不需要设置 KernelSU，跳过此步骤。"
           fi
