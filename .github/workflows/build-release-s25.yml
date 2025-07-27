@@ -44,9 +44,18 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y \
             build-essential git libncurses5-dev bc bison flex libssl-dev \
-            p7zip-full lz4 cpio curl libelf-dev dwarves
+            p7zip-full lz4 cpio curl libelf-dev dwarves ccache
+      # 第三步：缓存工具链
+      - name: Cache Toolchain
+        id: toolchain-cache
+        uses: actions/cache@v4
+        with:
+          # 缓存 ./toolchain 目录
+          path: ./toolchain
+          # 缓存的唯一标识符。如果工具链的下载链接变了，就会创建一个新的缓存
+          key: ${{ runner.os }}-toolchain-s25-${{ hashFiles('**/build-release.yml') }}
 
-      # 第三步：下载、合并并解压 S25 工具链
+      # 第四步：下载、合并并解压 S25 工具链
       - name: Download and Extract Toolchain (S25)
         run: |
           echo "开始从 GitHub Releases 下载 S25 工具链分卷..."
@@ -71,8 +80,20 @@ jobs:
           rm -rf ./toolchain_temp
           
           echo "工具链准备完毕。"
+          
+      # 第五步：缓存 ccache 编译结果
+      - name: Cache ccache
+        uses: actions/cache@v4
+        with:
+          # 缓存 ccache 的默认目录
+          path: ~/.ccache
+          # 缓存的标识符，与分支名关联
+          key: ${{ runner.os }}-ccache-${{ github.event.inputs.branch }}
+          # 如果 key 完全匹配不上，可以尝试恢复最接近的缓存
+          restore-keys: |
+            ${{ runner.os }}-ccache-
 
-      # 第四步：根据分支设置 KernelSU
+      # 第五步：根据分支设置 KernelSU
       - name: Setup KernelSU based on branch
         run: |
           BRANCH_NAME="${{ github.event.inputs.branch }}"
