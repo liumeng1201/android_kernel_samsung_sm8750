@@ -12,6 +12,7 @@ if command -v ccache &> /dev/null; then
     # 将 ccache 添加到 PATH 的最前面
     export PATH="/usr/lib/ccache:$PATH"
 fi
+
 # --- 用户配置 (S25 / sm8750) ---
 
 # 1. 主配置文件
@@ -115,6 +116,14 @@ echo "${version_string}" > ./localversion
 # 开始编译内核
 echo "--- 开始编译内核 (-j$(nproc)) ---"
 ccache -s
+if command -v ccache &> /dev/null; then
+    echo "--- 启用 ccache 编译缓存 ---"
+    export CCACHE_EXEC=$(which ccache)
+    # 设置 ccache 的最大缓存大小，例如 5GB
+    ccache -M 5G
+    # 将 ccache 添加到 PATH 的最前面
+    export PATH="/usr/lib/ccache:$PATH"
+fi
 make -j$(nproc) ${MAKE_ARGS} 2>&1 | tee kernel_build_log.txt
 BUILD_STATUS=${PIPESTATUS[0]}
 echo "--- 编译结束，显示 ccache 最终统计信息 ---"
