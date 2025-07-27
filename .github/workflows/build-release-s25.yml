@@ -28,7 +28,8 @@ jobs:
   build:
     # 指定运行环境为最新的 Ubuntu 系统
     runs-on: ubuntu-latest
-
+    env:
+      CCACHE_DIR: ${{ github.workspace }}/.ccache
     steps:
       # 第一步：检出你的仓库代码
       - name: Checkout Repository
@@ -86,7 +87,7 @@ jobs:
         uses: actions/cache@v4
         with:
           # 缓存 ccache 的默认目录
-          path: ~/.ccache
+          path: ${{ env.CCACHE_DIR }}
           # 缓存的标识符，与分支名关联
           key: ${{ runner.os }}-ccache-${{ github.event.inputs.branch }}
           # 如果 key 完全匹配不上，可以尝试恢复最接近的缓存
