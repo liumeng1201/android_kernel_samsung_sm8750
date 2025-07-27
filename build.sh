@@ -3,6 +3,15 @@
 # 脚本出错时立即退出
 set -e
 
+# 如果 ccache 存在，则启用它
+if command -v ccache &> /dev/null; then
+    echo "--- 启用 ccache 编译缓存 ---"
+    export CCACHE_EXEC=$(which ccache)
+    # 设置 ccache 的最大缓存大小，例如 5GB
+    ccache -M 5G
+    # 将 ccache 添加到 PATH 的最前面
+    export PATH="/usr/lib/ccache:$PATH"
+fi
 # --- 用户配置 (S25 / sm8750) ---
 
 # 1. 主配置文件
@@ -103,10 +112,13 @@ version_string="${LOCALVERSION_BASE}-g$(git rev-parse --short HEAD)"
 echo "--- 正在写入版本号: ${version_string} ---"
 echo "${version_string}" > ./localversion
 
-# 6. 开始编译内核
+# 开始编译内核
 echo "--- 开始编译内核 (-j$(nproc)) ---"
+ccache -s
 make -j$(nproc) ${MAKE_ARGS} 2>&1 | tee kernel_build_log.txt
 BUILD_STATUS=${PIPESTATUS[0]}
+echo "--- 编译结束，显示 ccache 最终统计信息 ---"
+ccache -s
 
 # 编译后清理 localversion 文件
 echo -n > ./localversion
@@ -161,7 +173,7 @@ kernel_release=$(cat ../include/config/kernel.release)
 final_name="${ZIP_NAME_PREFIX}_${kernel_release}_$(date '+%Y%m%d')"
 
 echo "--- 正在创建 Zip 刷机包: ${final_name}.zip ---"
-zip -r9 "../${final_name}.zip" . -x "*.zip" -x "tools/boot.img.lz4" -x "tools/libmagiskboot.so"
+zip -r9 "../${final_name}.zip" . -x "*.zip" -x "tools/boot.img.lz4" -x "tools/libmagiskboot.so" -x "README.md" -x "LICENSE" -x '.*' -x '*/.*'
 
 # 获取刷机包的绝对路径
 ZIP_FILE_PATH=$(realpath "../${final_name}.zip")
