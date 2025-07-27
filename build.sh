@@ -219,16 +219,12 @@ if [ -z "$GH_TOKEN" ]; then
     exit 1
 fi
 
-# 从 LOCALVERSION_BASE 提取构建类型 (最后一个'-'之后的部分)
+
 BUILD_TYPE=${LOCALVERSION_BASE##*-}
-
-# 创建一个包含构建类型的唯一标签名
+TARGET_BRANCH=${TARGET_BRANCH:-$(git rev-parse --abbrev-ref HEAD)}
 TAG="release-${BUILD_TYPE}-$(date +%Y%m%d-%H%M%S)"
-
 RELEASE_TITLE="新内核构建 - ${kernel_release} ($(date +'%Y-%m-%d %R'))"
 RELEASE_NOTES="由构建脚本在 $(date) 自动发布。"
-
-# 根据 IS_PRERELEASE 变量添加 --prerelease 标志
 PRERELEASE_FLAG=""
 if [ "$IS_PRERELEASE" == "true" ]; then
     PRERELEASE_FLAG="--prerelease"
@@ -238,23 +234,22 @@ fi
 
 echo "仓库: $GITHUB_REPO"
 echo "标签: $TAG"
+echo "目标分支: $TARGET_BRANCH"
 echo "标题: $RELEASE_TITLE"
 echo "上传文件: $UPLOAD_FILES"
 
 echo "--- 准备执行发布命令 ---"
 
-set +e # 临时禁用 "exit on error"
-
-# 使用 UPLOAD_FILES 变量来决定上传哪些文件
+set +e
 RELEASE_OUTPUT=$(gh release create "$TAG" \
     $UPLOAD_FILES \
     --repo "$GITHUB_REPO" \
     --title "$RELEASE_TITLE" \
     --notes "$RELEASE_NOTES" \
+    --target "$TARGET_BRANCH" \
     $PRERELEASE_FLAG 2>&1)
-
 RELEASE_STATUS=$?
-set -e # 重新启用 "exit on error"
+set -e
 
 if [ $RELEASE_STATUS -eq 0 ]; then
     echo -e "\n--- 成功发布到 GitHub Release！ ---"
