@@ -41,7 +41,6 @@
 #include <trace/hooks/blk.h>
 #include <trace/hooks/fs.h>
 
-
 /* Maximum number of mounts in a mount namespace */
 static unsigned int sysctl_mount_max __read_mostly = 100000;
 
