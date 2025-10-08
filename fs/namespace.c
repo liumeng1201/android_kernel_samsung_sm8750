@@ -29,6 +29,9 @@
 #include <linux/task_work.h>
 #include <linux/sched/task.h>
 #include <uapi/linux/mount.h>
+#ifdef CONFIG_PROC_STLOG
+#include <linux/fslog.h>
+#endif
 #include <linux/fs_context.h>
 #include <linux/shmem_fs.h>
 #include <linux/mnt_idmapping.h>
@@ -38,9 +41,6 @@
 #include <trace/hooks/blk.h>
 #include <trace/hooks/fs.h>
 
-#ifdef CONFIG_PROC_STLOG
-#include <linux/fslog.h>
-#endif
 
 /* Maximum number of mounts in a mount namespace */
 static unsigned int sysctl_mount_max __read_mostly = 100000;
