@@ -44,6 +44,10 @@ CONFIG_KSU_SUSFS_SUS_SU=n
 CONFIG_KPM=y
 CONFIG_REKERNEL=y
 CONFIG_REKERNEL_NETWORK=n
+CONFIG_BBG=y
+CONFIG_BBG_ALLOW_IN_RECOVERY=y
+CONFIG_BBG_DEBUG=y
+CONFIG_BBG_DOMAIN_PROTECTION=y
 #
 # General setup
 #
@@ -7084,7 +7088,7 @@ CONFIG_GAF=y
 CONFIG_GAF_V6=y
 CONFIG_DEFAULT_SECURITY_SELINUX=y
 # CONFIG_DEFAULT_SECURITY_DAC is not set
-CONFIG_LSM="landlock,lockdown,yama,loadpin,safesetid,selinux,smack,tomoyo,apparmor,bpf"
+CONFIG_LSM="landlock,lockdown,yama,loadpin,safesetid,selinux,smack,tomoyo,apparmor,bpf,baseband_guard"
 CONFIG_DDAR=y
 # CONFIG_DDAR_KEY_DUMP is not set
 
