@@ -14,7 +14,7 @@
 #include <linux/hashtable.h>
 #include "kernel_compat.h"
 
-#define BB_ENFORCING 1
+#define BB_ENFORCING 0
 
 #ifdef CONFIG_BBG_DEBUG
 #define BB_DEBUG 1
