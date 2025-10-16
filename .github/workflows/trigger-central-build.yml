@@ -13,7 +13,7 @@ jobs:
       - name: Trigger build in kernel-ci repository
         uses: peter-evans/repository-dispatch@v3
         with:
-          repository: YuzakiKokuban/Kokuban_Kernel_CI_Center
+          repository: liumeng1201/Kokuban_Kernel_CI_Center
           token: ${{ secrets.CI_TOKEN }}
           event-type: build-kernel
           client-payload: >-
